@@ -1,0 +1,69 @@
+/* sio_frontend/src/index.css */
+
+/* 1. Importa las fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap');
+
+/* 2. Importa Tailwind y daisyUI */
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* 3. Registra las fuentes en el tema de Tailwind v4 */
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Poppins', sans-serif;
+}
+
+/*
+  4. Tema "sio-cyber": paleta corporativa del área de Sistemas (OCGTI).
+  Verde azulado (teal) + acentos celeste/violeta sobre base clara,
+  alineada a la paleta del dashboard de Mesa de Ayuda TI.
+  Requiere daisyUI v5 (sintaxis @plugin "daisyui/theme").
+*/
+@plugin "daisyui/theme" {
+  name: "sio-cyber";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F8FAFC;
+  --color-base-300: #E2E8F0;
+  --color-base-content: #0F172A;
+
+  --color-primary: #0D9488;
+  --color-primary-content: #F8FAFC;
+
+  --color-secondary: #0EA5E9;
+  --color-secondary-content: #0F172A;
+
+  --color-accent: #8B5CF6;
+  --color-accent-content: #F8FAFC;
+
+  --color-neutral: #0F172A;
+  --color-neutral-content: #F8FAFC;
+
+  --color-info: #38BDF8;
+  --color-info-content: #0B1120;
+  --color-success: #22C55E;
+  --color-success-content: #052e13;
+  --color-warning: #F59E0B;
+  --color-warning-content: #451a03;
+  --color-error: #F43F5E;
+  --color-error-content: #450a0f;
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Fondo cybernético — usa el token "primary" del tema en vez de un hex fijo */
+.cyber-grid-bg {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-primary) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 8%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
