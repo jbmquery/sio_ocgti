@@ -1,3 +1,4 @@
+{/* sio_frontend/src/pages/Categorias_page.jsx */}
 import React, { useState } from 'react';
 import NavbarComponent from '../components/general/navbar_component';
 import SiderbarComponent from '../components/general/siderbar_component';

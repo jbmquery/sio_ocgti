@@ -10,6 +10,7 @@ import Login_page from "./pages/Login_page";
 import Dashboard_page from "./pages/Dashboard_page";
 import Lista_usuarios_page from "./pages/Lista_usuarios_page";
 import Categorias_page from "./pages/Categorias_page";
+import Tabla_bitacora_page from "./pages/Tabla_bitacora_page";
 
 function App() {
   return (
@@ -42,6 +43,15 @@ function App() {
           element={
             <RutaPrivada>
               <Categorias_page />
+            </RutaPrivada>
+          }
+        />
+
+        <Route
+          path="/configuraciones/config-bitacora"
+          element={
+            <RutaPrivada>
+              <Tabla_bitacora_page />
             </RutaPrivada>
           }
         />
