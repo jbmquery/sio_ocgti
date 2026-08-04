@@ -1,14 +1,12 @@
-//sio_frontend/src/pages/Lista_usuarios_page.jsx
-import React, { useState } from 'react'
-import { Users, Wrench } from 'lucide-react'
-import NavbarComponent from '../components/general/navbar_component'
-import SiderbarComponent from '../components/general/siderbar_component'
-import Usuarios_tab from '../components/lista_usuarios/Usuarios_tab'
-import Tecnicos_tab from '../components/lista_usuarios/Tecnicos_tab'
+import React, { useState } from 'react';
+import NavbarComponent from '../components/general/navbar_component';
+import SiderbarComponent from '../components/general/siderbar_component';
+import Categorias_table from '../components/categorias/Categorias_table';
+import SubCategorias_table from '../components/categorias/SubCategorias_table';
+import SsCategorias_table from '../components/categorias/SsCategorias_table';
 
 function Categorias_page() {
-  const [sidebarAbierto, setSidebarAbierto] = useState(false)
-  const [tabActiva, setTabActiva] = useState('usuarios')
+  const [sidebarAbierto, setSidebarAbierto] = useState(false);
 
   return (
     <div className="min-h-screen bg-base-200">
@@ -21,17 +19,19 @@ function Categorias_page() {
           <div className="mb-6">
             <h1 className="font-display text-2xl font-bold text-base-content">Gestión de Categorías</h1>
             <p className="text-sm text-slate-400">
-              Gestión de las tablas de Categorías - SubCategorias - SsCategorias.
+              Gestión de las tablas de Categorías - SubCategorías - SsCategorías.
             </p>
           </div>
 
-          {/* Cuerpo*/}
-
-
+          <div className="flex flex-col gap-10">
+            <Categorias_table />
+            <SubCategorias_table />
+            <SsCategorias_table />
+          </div>
         </main>
       </div>
     </div>
-  )
+  );
 }
 
-export default Categorias_page
+export default Categorias_page;
