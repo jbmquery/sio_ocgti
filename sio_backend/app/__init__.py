@@ -8,14 +8,15 @@ from app.routes.auth_routes import auth_bp
 from app.routes.lista_usuarios_routes import lista_usuarios_bp
 from app.routes.categorias_routes import categorias_bp
 from app.routes.tabla_bitacora_routes import tabla_bitacora_bp
-
+from app.routes.tabla_dependencia_routes import tabla_dependencia_bp
+# Si ya creaste las rutas de técnicos, impórtalas aquí:
+# from app.routes.tabla_tecnicos_routes import tabla_tecnicos_bp
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Permitir peticiones desde tu frontend en React (Vite corre en :5173 por defecto).
-    # allow_headers/methods explícitos para que el header Authorization no sea bloqueado.
+    # Configuración de CORS
     CORS(
         app,
         resources={r"/api/*": {"origins": Config.FRONTEND_ORIGIN}},
@@ -33,8 +34,10 @@ def create_app():
     app.register_blueprint(lista_usuarios_bp)
     app.register_blueprint(categorias_bp)
     app.register_blueprint(tabla_bitacora_bp)
+    app.register_blueprint(tabla_dependencia_bp)
+    # app.register_blueprint(tabla_tecnicos_bp)
 
-    # Crear automáticamente las tablas en PostgreSQL si no existen al iniciar
+    # Crear tablas
     with app.app_context():
         db.create_all()
 

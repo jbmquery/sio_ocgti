@@ -137,7 +137,7 @@ function SiderbarComponent({ open = true, onClose }) {
                 { to: '/configuraciones/cat-subcat-sscat', label: 'Cat - Subcat - SsCat' },
                 { to: '/configuraciones/config-tecnicos', label: 'Tablas Tecnicos' },
                 { to: '/configuraciones/config-bitacora', label: 'Tablas Bitacora' },
-                { to: '/configuraciones/config-ambientes', label: 'Tablas Ambientes' },
+                { to: '/configuraciones/config-dependencia', label: 'Tablas Dependencia' },
                 { to: '/configuraciones/config-otros', label: 'Otros' },
               ]}
             />

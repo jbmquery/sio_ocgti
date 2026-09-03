@@ -1,16 +1,18 @@
-{
-  /* sio_frontend/src/App.jsx */
-}
+{/* sio_frontend/src/App.jsx */}
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import RutaPrivada from "./components/general/RutaPrivada";
+
 import Login_page from "./pages/Login_page";
 import Dashboard_page from "./pages/Dashboard_page";
 import Lista_usuarios_page from "./pages/Lista_usuarios_page";
 import Categorias_page from "./pages/Categorias_page";
 import Tabla_bitacora_page from "./pages/Tabla_bitacora_page";
+import Tabla_dependencia_page from "./pages/Tabla_dependencia_page";
+// Descomentar cuando crees la vista de técnicos:
+// import Tabla_tecnicos_page from "./pages/Tabla_tecnicos_page";
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login_page />} />
 
+        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -29,6 +32,7 @@ function App() {
           }
         />
 
+        {/* Usuarios */}
         <Route
           path="/usuarios/lista"
           element={
@@ -38,6 +42,7 @@ function App() {
           }
         />
 
+        {/* Configuraciones */}
         <Route
           path="/configuraciones/cat-subcat-sscat"
           element={
@@ -46,7 +51,6 @@ function App() {
             </RutaPrivada>
           }
         />
-
         <Route
           path="/configuraciones/config-bitacora"
           element={
@@ -55,8 +59,26 @@ function App() {
             </RutaPrivada>
           }
         />
+        <Route
+          path="/configuraciones/config-dependencia"
+          element={
+            <RutaPrivada>
+              <Tabla_dependencia_page />
+            </RutaPrivada>
+          }
+        />
+        {/* Agrega aquí la ruta cuando implementes la página:
+        <Route
+          path="/configuraciones/config-tecnicos"
+          element={
+            <RutaPrivada>
+              <Tabla_tecnicos_page />
+            </RutaPrivada>
+          }
+        /> 
+        */}
 
-        {/* Placeholder temporal para rutas del sidebar aún no implementadas */}
+        {/* Ruta por defecto */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </AuthProvider>
