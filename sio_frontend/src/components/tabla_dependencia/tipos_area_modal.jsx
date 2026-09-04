@@ -2,18 +2,27 @@
 import React, { useEffect, useState } from 'react';
 import { X, Save, Trash2, RotateCcw } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { crearTipoArea, actualizarTipoArea, eliminarTipoArea } from '../../apis/tabla_dependencia/tabla_dependenciaApi';
+import { crearTipoArea, actualizarTipoArea, eliminarTipoArea, obtenerAreas } from '../../apis/tabla_dependencia/tabla_dependenciaApi';
 
 export default function TiposArea_modal({ abierto, onClose, itemSelect, onGuardado }) {
-  const [form, setForm] = useState({ nom_tipo_area: '', categoria_area: '' });
+  const [form, setForm] = useState({ nom_tipo_area: '', id_area: '' });
+  const [areas, setAreas] = useState([]);
   const [guardando, setGuardando] = useState(false);
   const esActualizar = Boolean(itemSelect);
 
   useEffect(() => {
+    const cargarAreas = async () => {
+      try { setAreas(await obtenerAreas()); }
+      catch { toast.error("Error al cargar Áreas"); }
+    };
+    cargarAreas();
+  }, []);
+
+  useEffect(() => {
     if (itemSelect) {
-      setForm({ nom_tipo_area: itemSelect.nom_tipo_area || '', categoria_area: itemSelect.categoria_area || '' });
+      setForm({ nom_tipo_area: itemSelect.nom_tipo_area || '', id_area: itemSelect.id_area || '' });
     } else {
-      setForm({ nom_tipo_area: '', categoria_area: '' });
+      setForm({ nom_tipo_area: '', id_area: '' });
     }
   }, [itemSelect, abierto]);
 
@@ -59,8 +68,18 @@ export default function TiposArea_modal({ abierto, onClose, itemSelect, onGuarda
               <input type="text" className="input input-bordered w-full uppercase" required value={form.nom_tipo_area} onChange={(e) => setForm({ ...form, nom_tipo_area: e.target.value.toUpperCase() })} />
             </label>
             <label className="form-control w-full">
-              <div className="label"><span className="label-text">Categoría de Área *</span></div>
-              <input type="text" className="input input-bordered w-full uppercase" placeholder="Ej. ACADÉMICO / ADMINISTRATIVO" required value={form.categoria_area} onChange={(e) => setForm({ ...form, categoria_area: e.target.value.toUpperCase() })} />
+              <div className="label"><span className="label-text">Área *</span></div>
+              <select
+                className="select select-bordered w-full"
+                required
+                value={form.id_area}
+                onChange={(e) => setForm({ ...form, id_area: e.target.value })}
+              >
+                <option value="">-- Selecciona un Área --</option>
+                {areas.map(a => (
+                  <option key={a.id_area} value={a.id_area}>{a.nom_area}</option>
+                ))}
+              </select>
             </label>
           </div>
           <div className="flex items-center gap-2 px-5 py-4 border-t border-base-300">

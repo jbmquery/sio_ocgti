@@ -190,14 +190,18 @@ def eliminar_carrera(id_carrera):
 
 # --- TIPOS DE AREA ---
 def listar_tipos_area():
-    return [t.to_dict() for t in TipoArea.query.order_by(TipoArea.nom_tipo_area.asc()).all()]
+    return [t.to_dict() for t in TipoArea.query
+        .options(joinedload(TipoArea.area))
+        .join(TipoArea.area)
+        .order_by(Area.nom_area.asc(), TipoArea.nom_tipo_area.asc())
+        .all()]
 
 def crear_tipo_area(data):
-    if not data.get("nom_tipo_area") or not data.get("categoria_area"):
-        raise ErrorNegocio("Nombre de tipo de área y categoría son obligatorios")
+    if not data.get("nom_tipo_area") or not data.get("id_area"):
+        raise ErrorNegocio("Nombre de tipo de área y Área son obligatorios")
     nuevo = TipoArea(
         nom_tipo_area=_normalizar_mayuscula(data["nom_tipo_area"]),
-        categoria_area=_normalizar_mayuscula(data["categoria_area"])
+        id_area=data["id_area"]
     )
     db.session.add(nuevo)
     db.session.commit()
@@ -207,7 +211,7 @@ def actualizar_tipo_area(id_tipo_area, data):
     obj = TipoArea.query.get(id_tipo_area)
     if not obj: raise ErrorNegocio("Tipo de área no encontrado", 404)
     if "nom_tipo_area" in data and data["nom_tipo_area"]: obj.nom_tipo_area = _normalizar_mayuscula(data["nom_tipo_area"])
-    if "categoria_area" in data and data["categoria_area"]: obj.categoria_area = _normalizar_mayuscula(data["categoria_area"])
+    if "id_area" in data and data["id_area"]: obj.id_area = data["id_area"]
     db.session.commit()
     return obj.to_dict()
 
@@ -220,7 +224,7 @@ def eliminar_tipo_area(id_tipo_area):
     except IntegrityError:
         db.session.rollback()
         raise ErrorNegocio("No se puede eliminar: tiene registros relacionados", 409)
-
+        
 # --- AMBIENTES ---
 def listar_ambientes():
     return [a.to_dict() for a in Ambiente.query.order_by(Ambiente.nom_ambiente.asc()).all()]

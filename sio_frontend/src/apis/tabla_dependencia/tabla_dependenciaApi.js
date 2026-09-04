@@ -1,3 +1,4 @@
+// sio_frontend/src/apis/tabla_bitacora/tabla_dependenciaApi.js
 import axios from 'axios';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';

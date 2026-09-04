@@ -101,13 +101,16 @@ class TipoArea(db.Model):
     __tablename__ = 'tipos_area'
     id_tipo_area = db.Column(db.Integer, primary_key=True)
     nom_tipo_area = db.Column(db.String(100), nullable=False)
-    categoria_area = db.Column(db.String(50), nullable=False)
+    id_area = db.Column(db.Integer, db.ForeignKey('area.id_area', ondelete='RESTRICT'), nullable=False)
+
+    area = db.relationship('Area')
 
     def to_dict(self):
         return {
             "id_tipo_area": self.id_tipo_area,
             "nom_tipo_area": self.nom_tipo_area,
-            "categoria_area": self.categoria_area
+            "id_area": self.id_area,
+            "nom_area": self.area.nom_area if self.area else None
         }
 
 class Area(db.Model):

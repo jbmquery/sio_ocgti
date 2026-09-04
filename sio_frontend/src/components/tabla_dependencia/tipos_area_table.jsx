@@ -28,12 +28,12 @@ export default function TiposArea_table() {
       </div>
       <div className="card bg-base-100 border border-white/15 shadow-sm overflow-x-auto max-h-120">
         <table className="table">
-          <thead><tr className="text-xs uppercase text-slate-400"><th>Tipo de Área</th><th>Categoría</th></tr></thead>
+          <thead><tr className="text-xs uppercase text-slate-400"><th>Tipo de Área</th><th>Área</th></tr></thead>
           <tbody>
             {data.map(i => (
               <tr key={i.id_tipo_area} className="hover cursor-pointer" onClick={() => abrirActualizar(i)}>
                 <td>{i.nom_tipo_area}</td>
-                <td>{i.categoria_area}</td>
+                <td>{i.nom_area}</td>
               </tr>
             ))}
           </tbody>
