@@ -110,6 +110,17 @@ class TipoArea(db.Model):
             "categoria_area": self.categoria_area
         }
 
+class Area(db.Model):
+    __tablename__ = 'area'
+    id_area = db.Column(db.Integer, primary_key=True)
+    nom_area = db.Column(db.String(50), nullable=False)
+
+    def to_dict(self):
+        return {
+            "id_area": self.id_area,
+            "nom_area": self.nom_area
+        }
+
 class Ambiente(db.Model):
     __tablename__ = 'ambientes'
     id_ambiente = db.Column(db.Integer, primary_key=True)

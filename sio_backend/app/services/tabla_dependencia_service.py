@@ -3,7 +3,7 @@ from app.database import db
 from sqlalchemy.exc import IntegrityError
 from app.models.tabla_dependencia import (
     UbicacionGeografica, Predio, Pabellon, Dependencia, 
-    CarreraProfesional, TipoArea, Ambiente
+    CarreraProfesional, TipoArea, Ambiente, Area
 )
 from app.services.lista_usuarios_service import ErrorNegocio
 from sqlalchemy.orm import joinedload
@@ -257,3 +257,35 @@ def eliminar_ambiente(id_ambiente):
     if not obj: raise ErrorNegocio("Ambiente no encontrado", 404)
     db.session.delete(obj)
     db.session.commit()
+
+# --- AREAS ---
+def listar_areas():
+    return [a.to_dict() for a in Area.query.order_by(Area.nom_area.asc()).all()]
+
+def crear_area(data):
+    if not data.get("nom_area"):
+        raise ErrorNegocio("El nombre del área es obligatorio")
+    nuevo = Area(
+        nom_area=_normalizar_mayuscula(data["nom_area"])
+    )
+    db.session.add(nuevo)
+    db.session.commit()
+    return nuevo.to_dict()
+
+def actualizar_area(id_area, data):
+    obj = Area.query.get(id_area)
+    if not obj: raise ErrorNegocio("Área no encontrada", 404)
+    if "nom_area" in data and data["nom_area"]:
+        obj.nom_area = _normalizar_mayuscula(data["nom_area"])
+    db.session.commit()
+    return obj.to_dict()
+
+def eliminar_area(id_area):
+    obj = Area.query.get(id_area)
+    if not obj: raise ErrorNegocio("Área no encontrada", 404)
+    try:
+        db.session.delete(obj)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        raise ErrorNegocio("No se puede eliminar: tiene registros relacionados", 409)

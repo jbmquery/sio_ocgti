@@ -54,3 +54,9 @@ export const obtenerAmbientes = async () => (await cliente.get('/ambientes')).da
 export const crearAmbiente = async (data) => (await cliente.post('/ambientes', data)).data;
 export const actualizarAmbiente = async (id, data) => (await cliente.put(`/ambientes/${id}`, data)).data;
 export const eliminarAmbiente = async (id) => (await cliente.delete(`/ambientes/${id}`)).data;
+
+// Áreas
+export const obtenerAreas = async () => (await cliente.get('/areas')).data;
+export const crearArea = async (data) => (await cliente.post('/areas', data)).data;
+export const actualizarArea = async (id, data) => (await cliente.put(`/areas/${id}`, data)).data;
+export const eliminarArea = async (id) => (await cliente.delete(`/areas/${id}`)).data;

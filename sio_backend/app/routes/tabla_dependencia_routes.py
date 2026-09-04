@@ -131,3 +131,20 @@ def put_amb(id): return manejar_respuesta(actualizar_ambiente, id, request.get_j
 @tabla_dependencia_bp.route('/ambientes/<int:id>', methods=['DELETE'])
 @token_required
 def del_amb(id): return manejar_respuesta(eliminar_ambiente, id)
+
+# Áreas
+@tabla_dependencia_bp.route('/areas', methods=['GET'])
+@token_required
+def get_area(): return manejar_respuesta(listar_areas)
+
+@tabla_dependencia_bp.route('/areas', methods=['POST'])
+@token_required
+def post_area(): return manejar_respuesta(crear_area, request.get_json(silent=True) or {})
+
+@tabla_dependencia_bp.route('/areas/<int:id>', methods=['PUT'])
+@token_required
+def put_area(id): return manejar_respuesta(actualizar_area, id, request.get_json(silent=True) or {})
+
+@tabla_dependencia_bp.route('/areas/<int:id>', methods=['DELETE'])
+@token_required
+def del_area(id): return manejar_respuesta(eliminar_area, id)

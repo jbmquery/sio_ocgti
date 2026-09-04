@@ -10,6 +10,7 @@ import Dependencias_table from '../components/tabla_dependencia/dependencias_tab
 import CarrerasProfesionales_table from '../components/tabla_dependencia/carreras_profesionales_table';
 import TiposArea_table from '../components/tabla_dependencia/tipos_area_table';
 import Ambientes_table from '../components/tabla_dependencia/ambientes_table';
+import Area_table from '../components/tabla_dependencia/area_table';
 
 function Tabla_dependencia_page() {
   const [sidebarAbierto, setSidebarAbierto] = useState(false);
@@ -37,6 +38,7 @@ function Tabla_dependencia_page() {
             <Pabellones_table />
             <Dependencias_table />
             <CarrerasProfesionales_table />
+            <Area_table />
             <TiposArea_table />
             <Ambientes_table />
           </div>
