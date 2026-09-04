@@ -4,13 +4,14 @@ import { X, Save, Trash2, RotateCcw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { crearAmbiente, actualizarAmbiente, eliminarAmbiente } from '../../apis/tabla_dependencia/tabla_dependenciaApi';
 
-export default function Ambientes_modal({ abierto, onClose, itemSelect, predios, pabellones, dependencias, tiposArea, onGuardado }) {
+export default function Ambientes_modal({ abierto, onClose, itemSelect, predios, pabellones, dependencias, areas, tiposArea, onGuardado }) {
   const [form, setForm] = useState({
     nom_ambiente: '',
     piso: '',
     id_predio: '',
     id_pabellon: '',
     id_dependencia: '',
+    id_area: '',
     id_tipo_area: ''
   });
   const [guardando, setGuardando] = useState(false);
@@ -22,6 +23,11 @@ export default function Ambientes_modal({ abierto, onClose, itemSelect, predios,
     return pabellones.filter(p => String(p.id_predio) === String(form.id_predio));
   }, [form.id_predio, pabellones]);
 
+  const tiposAreaFiltrados = useMemo(() => {
+    if (!form.id_area) return [];
+    return tiposArea.filter(t => String(t.id_area) === String(form.id_area));
+  }, [form.id_area, tiposArea]);
+
   useEffect(() => {
     if (itemSelect) {
       setForm({
@@ -30,6 +36,7 @@ export default function Ambientes_modal({ abierto, onClose, itemSelect, predios,
         id_predio: itemSelect.id_predio || '',
         id_pabellon: itemSelect.id_pabellon || '',
         id_dependencia: itemSelect.id_dependencia || '',
+        id_area: itemSelect.id_area || '',
         id_tipo_area: itemSelect.id_tipo_area || ''
       });
     } else {
@@ -39,10 +46,11 @@ export default function Ambientes_modal({ abierto, onClose, itemSelect, predios,
         id_predio: predios[0]?.id_predio || '',
         id_pabellon: '',
         id_dependencia: '',
-        id_tipo_area: tiposArea[0]?.id_tipo_area || ''
+        id_area: areas[0]?.id_area || '',
+        id_tipo_area: ''
       });
     }
-  }, [itemSelect, abierto, predios, tiposArea]);
+  }, [itemSelect, abierto, predios, areas, tiposArea]);
 
   const manejarGuardar = async (e) => {
     e.preventDefault();
@@ -85,19 +93,28 @@ export default function Ambientes_modal({ abierto, onClose, itemSelect, predios,
               <div className="label"><span className="label-text">Nombre del Ambiente *</span></div>
               <input type="text" className="input input-bordered w-full uppercase" required value={form.nom_ambiente} onChange={(e) => setForm({ ...form, nom_ambiente: e.target.value.toUpperCase() })} />
             </label>
+            
             <div className="grid grid-cols-2 gap-3">
               <label className="form-control w-full">
                 <div className="label"><span className="label-text">Piso</span></div>
                 <input type="text" className="input input-bordered w-full uppercase" placeholder="Ej. 1, 5, SÓTANO" value={form.piso} onChange={(e) => setForm({ ...form, piso: e.target.value.toUpperCase() })} />
               </label>
               <label className="form-control w-full">
-                <div className="label"><span className="label-text">Tipo de Área *</span></div>
-                <select className="select select-bordered" required value={form.id_tipo_area} onChange={(e) => setForm({ ...form, id_tipo_area: e.target.value })}>
+                <div className="label"><span className="label-text">Área *</span></div>
+                <select className="select select-bordered" required value={form.id_area} onChange={(e) => setForm({ ...form, id_area: e.target.value, id_tipo_area: '' })}>
                   <option value="" disabled>Seleccione</option>
-                  {tiposArea.map(t => <option key={t.id_tipo_area} value={t.id_tipo_area}>{t.nom_tipo_area}</option>)}
+                  {areas.map(a => <option key={a.id_area} value={a.id_area}>{a.nom_area}</option>)}
                 </select>
               </label>
             </div>
+            <label className="form-control w-full">
+              <div className="label"><span className="label-text">Tipo de Área *</span></div>
+              <select className="select select-bordered" required value={form.id_tipo_area} onChange={(e) => setForm({ ...form, id_tipo_area: e.target.value })} disabled={!form.id_area}>
+                <option value="" disabled>Seleccione</option>
+                {tiposAreaFiltrados.map(t => <option key={t.id_tipo_area} value={t.id_tipo_area}>{t.nom_tipo_area}</option>)}
+              </select>
+            </label>
+
             <label className="form-control w-full">
               <div className="label"><span className="label-text">Predio *</span></div>
               <select className="select select-bordered" required value={form.id_predio} onChange={(e) => setForm({ ...form, id_predio: e.target.value, id_pabellon: '' })}>
@@ -105,6 +122,7 @@ export default function Ambientes_modal({ abierto, onClose, itemSelect, predios,
                 {predios.map(p => <option key={p.id_predio} value={p.id_predio}>{p.codigo_predio ? `[${p.codigo_predio}] ` : ''}{p.direccion}</option>)}
               </select>
             </label>
+
             <label className="form-control w-full">
               <div className="label"><span className="label-text">Pabellón (Opcional)</span></div>
               <select className="select select-bordered" value={form.id_pabellon} onChange={(e) => setForm({ ...form, id_pabellon: e.target.value })} disabled={!form.id_predio}>

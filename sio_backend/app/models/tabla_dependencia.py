@@ -133,11 +133,13 @@ class Ambiente(db.Model):
     id_pabellon = db.Column(db.Integer, db.ForeignKey('pabellones.id_pabellon', ondelete='SET NULL'), nullable=True)
     id_dependencia = db.Column(db.Integer, db.ForeignKey('dependencias.id_dependencia', ondelete='SET NULL'), nullable=True)
     id_tipo_area = db.Column(db.Integer, db.ForeignKey('tipos_area.id_tipo_area', ondelete='RESTRICT'), nullable=False)
+    id_area = db.Column(db.Integer, db.ForeignKey('area.id_area', ondelete='RESTRICT'), nullable=False)
 
     predio = db.relationship('Predio')
     pabellon = db.relationship('Pabellon')
     dependencia = db.relationship('Dependencia')
     tipo_area = db.relationship('TipoArea')
+    area = db.relationship('Area')
 
     def to_dict(self):
         return {
@@ -150,6 +152,8 @@ class Ambiente(db.Model):
             "nom_pabellon": self.pabellon.nom_pabellon if self.pabellon else None,
             "id_dependencia": self.id_dependencia,
             "nom_dependencia": self.dependencia.nom_dependencia if self.dependencia else None,
+            "id_area": self.id_area,
+            "nom_area": self.area.nom_area if self.area else None,
             "id_tipo_area": self.id_tipo_area,
             "nom_tipo_area": self.tipo_area.nom_tipo_area if self.tipo_area else None
         }

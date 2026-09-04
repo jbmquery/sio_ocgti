@@ -230,14 +230,15 @@ def listar_ambientes():
     return [a.to_dict() for a in Ambiente.query.order_by(Ambiente.nom_ambiente.asc()).all()]
 
 def crear_ambiente(data):
-    if not data.get("nom_ambiente") or not data.get("id_predio") or not data.get("id_tipo_area"):
-        raise ErrorNegocio("Nombre de ambiente, Predio y Tipo de Área son obligatorios")
+    if not data.get("nom_ambiente") or not data.get("id_predio") or not data.get("id_area") or not data.get("id_tipo_area"):
+        raise ErrorNegocio("Nombre de ambiente, Predio, Área y Tipo de Área son obligatorios")
     nuevo = Ambiente(
         nom_ambiente=_normalizar_mayuscula(data["nom_ambiente"]),
         piso=_normalizar_mayuscula(data.get("piso")),
         id_predio=data["id_predio"],
         id_pabellon=data.get("id_pabellon") or None,
         id_dependencia=data.get("id_dependencia") or None,
+        id_area=data["id_area"],
         id_tipo_area=data["id_tipo_area"]
     )
     db.session.add(nuevo)
@@ -252,6 +253,7 @@ def actualizar_ambiente(id_ambiente, data):
     if "id_predio" in data and data["id_predio"]: obj.id_predio = data["id_predio"]
     if "id_pabellon" in data: obj.id_pabellon = data["id_pabellon"] or None
     if "id_dependencia" in data: obj.id_dependencia = data["id_dependencia"] or None
+    if "id_area" in data and data["id_area"]: obj.id_area = data["id_area"]
     if "id_tipo_area" in data and data["id_tipo_area"]: obj.id_tipo_area = data["id_tipo_area"]
     db.session.commit()
     return obj.to_dict()

@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 import {
   obtenerAmbientes, obtenerPredios, obtenerPabellones,
-  obtenerDependencias, obtenerTiposArea
+  obtenerDependencias, obtenerAreas, obtenerTiposArea
 } from '../../apis/tabla_dependencia/tabla_dependenciaApi';
 import Ambientes_modal from './ambientes_modal';
 
@@ -16,6 +16,7 @@ export default function Ambientes_table() {
   const [tiposArea, setTiposArea] = useState([]);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [itemSelect, setItemSelect] = useState(null);
+  const [areas, setAreas] = useState([]);
 
   const cargar = async () => {
     try {
@@ -23,6 +24,7 @@ export default function Ambientes_table() {
       setPredios(await obtenerPredios());
       setPabellones(await obtenerPabellones());
       setDependencias(await obtenerDependencias());
+      setAreas(await obtenerAreas());
       setTiposArea(await obtenerTiposArea());
     } catch { toast.error("Error al cargar Ambientes"); }
   };
@@ -40,12 +42,13 @@ export default function Ambientes_table() {
       </div>
       <div className="card bg-base-100 border border-white/15 shadow-sm overflow-x-auto max-h-120">
         <table className="table">
-          <thead><tr className="text-xs uppercase text-slate-400"><th>Ambiente</th><th>Piso</th><th>Tipo de Área</th><th>Predio</th><th>Pabellón</th><th>Dependencia</th></tr></thead>
+          <thead><tr className="text-xs uppercase text-slate-400"><th>Ambiente</th><th>Piso</th><th>Área</th><th>Tipo de Área</th><th>Predio</th><th>Pabellón</th><th>Dependencia</th></tr></thead>
           <tbody>
             {data.map(i => (
               <tr key={i.id_ambiente} className="hover cursor-pointer" onClick={() => abrirActualizar(i)}>
                 <td>{i.nom_ambiente}</td>
                 <td>{i.piso || '-'}</td>
+                <td>{i.nom_area || '-'}</td>
                 <td>{i.nom_tipo_area || '-'}</td>
                 <td>{i.direccion_predio || '-'}</td>
                 <td>{i.nom_pabellon || '-'}</td>
@@ -62,6 +65,7 @@ export default function Ambientes_table() {
         predios={predios}
         pabellones={pabellones}
         dependencias={dependencias}
+        areas={areas}
         tiposArea={tiposArea}
         onGuardado={cargar}
       />
