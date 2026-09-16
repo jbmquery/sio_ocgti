@@ -134,7 +134,7 @@ export default function Ambientes_modal({ abierto, onClose, itemSelect, predios,
               <div className="label"><span className="label-text">Dependencia Asignada (Opcional)</span></div>
               <select className="select select-bordered" value={form.id_dependencia} onChange={(e) => setForm({ ...form, id_dependencia: e.target.value })}>
                 <option value="">Sin Dependencia</option>
-                {dependencias.map(d => <option key={d.id_dependencia} value={d.id_dependencia}>{d.nom_dependencia}</option>)}
+                {dependencias.map(d => <option key={d.id_dependencia} value={d.id_dependencia}>[ {d.siglas_dependencia} ] - {d.nom_dependencia}</option>)}
               </select>
             </label>
           </div>

@@ -20,6 +20,8 @@ export default function Ambientes_table() {
 
   const cargar = async () => {
     try {
+      const ambientesData = await obtenerAmbientes();
+      console.log("Datos de Ambientes:", ambientesData); // <-- Agrega esta línea
       setData(await obtenerAmbientes());
       setPredios(await obtenerPredios());
       setPabellones(await obtenerPabellones());
@@ -50,9 +52,9 @@ export default function Ambientes_table() {
                 <td>{i.piso || '-'}</td>
                 <td>{i.nom_area || '-'}</td>
                 <td>{i.nom_tipo_area || '-'}</td>
-                <td>{i.direccion_predio || '-'}</td>
+                <td>{i.codigo_predio || '-'}</td>
                 <td>{i.nom_pabellon || '-'}</td>
-                <td>{i.nom_dependencia || '-'}</td>
+                <td>{i.siglas_dependencia || '-'}</td>
               </tr>
             ))}
           </tbody>
